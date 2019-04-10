@@ -1,5 +1,5 @@
 create table AuctionAuto (
-	vin varchar(13) primary key,
+	vin char(17) primary key,
 	color varchar(10),
 	make varchar(16),
 	model varchar(16),
@@ -9,12 +9,12 @@ create table AuctionAuto (
 	trans char,
 	foreign key (lot_num) references location (lot_number),
 	reserve int,
-	mileage long,
+	mileage int,
 );
 
 create table Location (
 	num_cars_in_lot int,
-	rent long,
+	rent int,
 	lot_size int,
 	l_address varchar(100),
 	lot_number int primary key,
@@ -24,7 +24,7 @@ create table Employee (
 	ssn int primary key,
 	name varchar(30),
 	address varchar(100),
-	salary long,
+	salary int,
 	foreign key (e_lot_num) references location (lot_number),
 );
 
@@ -40,5 +40,5 @@ create table BidRep(
 
 create table Driver (
 	foreign key (bssn) references Employee (ssn),
-	License_num varchar(20),
+	License_num char(8),
 );
