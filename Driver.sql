@@ -1,7 +1,7 @@
 create table Driver(
 	dssn int,
 	license_num int,
-	foreign key (dssn) references employee (ssn)
+	foreign key (dssn) references Employee (ssn)
 );
 
 insert into Driver (dssn, license_num) values (290598779, 714629877);
@@ -21,12 +21,12 @@ insert into Driver (dssn, license_num) values (631899888, 365445198);
 insert into Driver (dssn, license_num) values (187413366, 871987379);
 
 insert into Driver (dssn, license_num) values (501805751, 719879873);
-insert into Driver (dssn, license_num) values (66257142,  187173879);
+insert into Driver (dssn, license_num) values (666257142,  187173879);
 insert into Driver (dssn, license_num) values (663872597, 489798467);
 insert into Driver (dssn, license_num) values (616166991, 364899217);
 
 insert into Driver (dssn, license_num) values (926712707, 165781376);
-insert into Driver (dssn, license_num) values (26450617,  356275442);
+insert into Driver (dssn, license_num) values (226450617, 356275442);
 insert into Driver (dssn, license_num) values (867421136, 689916154);
 insert into Driver (dssn, license_num) values (993216166, 178657779);
 insert into Driver (dssn, license_num) values (693872023, 456953187);

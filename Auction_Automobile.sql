@@ -11,7 +11,7 @@ create table Auction_Automobile (
 	reserve INT,
 	mileage INT,
 	primary key (vin),
- 	foreign key (lot_num) references location (lot_number)
+ 	foreign key (lot_num) references Location (lot_number)
 );
 insert into Auction_Automobile (vin, color, make, model, owner, year, title, trans, lot_num, reserve, mileage) values ('SCBFC7ZA6EC752199', 'Purple', 'Porsche', '911', 'dealer', 1996, 'junk', 'manual', 4, null, 189007);
 insert into Auction_Automobile (vin, color, make, model, owner, year, title, trans, lot_num, reserve, mileage) values ('19VDE2E54DE977800', 'Fuscia', 'Mercury', 'Sable', 'dealer', 1986, 'junk', 'manual', 2, null, 73518);

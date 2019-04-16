@@ -1,11 +1,11 @@
 create table Bid_Rep(
 	bssn int,
 	sales_num int,
-	foreign key (bssn) references employee (ssn)
+	foreign key (bssn) references Employee (ssn)
 );
 
 insert into Bid_Rep (bssn, sales_num) values (541848673, 3604);
-insert into Bid_Rep (bssn, sales_num) values (61190266, 2957);
+insert into Bid_Rep (bssn, sales_num) values (661190266, 2957);
 insert into Bid_Rep (bssn, sales_num) values (796328349, 2400);
 insert into Bid_Rep (bssn, sales_num) values (219288487, 324);
 
@@ -14,9 +14,9 @@ insert into Bid_Rep (bssn, sales_num) values (584277178, 3462);
 insert into Bid_Rep (bssn, sales_num) values (470586541, 2741);
 insert into Bid_Rep (bssn, sales_num) values (353024433, 2913);
 
-insert into Bid_Rep (bssn, sales_num) values (17320864, 6727);
+insert into Bid_Rep (bssn, sales_num) values (117320864, 6727);
 insert into Bid_Rep (bssn, sales_num) values (346259342, 900);
-insert into Bid_Rep (bssn, sales_num) values (60751965, 3498);
+insert into Bid_Rep (bssn, sales_num) values (560751965, 3498);
 insert into Bid_Rep (bssn, sales_num) values (107909201, 4369);
 
 insert into Bid_Rep (bssn, sales_num) values (746749350, 9001);
