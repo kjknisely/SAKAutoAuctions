@@ -25,11 +25,11 @@ from employee, driver
 where ssn=dssn);
 
 
-#4. Query using MINUS
-# Return ssn's of employees who are NOT drivers.
+# 4. Query using MINUS
+# Return ssns of employees who are NOT drivers.
 select ssn 
 from employee e1
-MINUS
+EXCEPT
 select ssn
 from employee, driver
 where ssn=dssn;
@@ -58,7 +58,7 @@ INTERSECT
 select vin, owner from auction_automobile where lot_num = '4';
 
 # 8. Query using UNION
-# Return unique VIN's of vehicles manufactured by Toyota or vehicles with automatic transmission
+# Return unique VINs of vehicles manufactured by Toyota or vehicles with automatic transmission
 SELECT VIN FROM Auction_Automobile WHERE make = 'Toyota'
 UNION
 select VIN from auction_automobile where trans = 'auto';
