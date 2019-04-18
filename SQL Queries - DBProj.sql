@@ -48,3 +48,34 @@ where lot_num='2')
 select make, count(*)
 from Auction_Automobile a1
 group by make;
+
+
+# 7. Query using INTERSECT
+# Return names of Owners whose vehicles are on lot #4 and their titles are CLEAN 
+SELECT owner FROM Auction_Automobile WHERE title = 'clean'
+INTERSECT
+select owner from auction_automobile where lot_num = '4';
+
+# 8. Query using UNION
+# Return unique VIN's of vehicles manufactured by Toyota or vehicles with automatic transmission
+SELECT VIN FROM Auction_Automobile WHERE make = 'Toyota'
+UNION
+select VIN from auction_automobile where trans = 'auto';
+
+# 9. Query using sort by (ORDER BY)
+# Return names and addresses for all employees whose salary is greater than $90,000
+select name, address
+from employee
+where salary > 90000
+ORDER by name;
+
+# 10. Query using all
+# Return make and model of all vehicles if all titles are clean. 
+select make, model
+from auction_automobile
+where title = all (select title 
+from auction_automobile
+where title = 'clean')
+
+
+
