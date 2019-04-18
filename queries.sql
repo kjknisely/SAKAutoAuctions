@@ -49,9 +49,15 @@ from Auction_Automobile
 where lot_num='2')
 
 /*
-# 6. Query using group by
-# Return a count of each vehicle make that is listed in the roster.
+# 6. Query using group by and aggregate and having
+# Return a count of each vehicle make that is listed in the roster 
+with more than 10 of those cars
 */
 select make, count(*)
 from Auction_Automobile a1
-group by make;
+group by make
+having count(*) > 10;
+
+
+
+
