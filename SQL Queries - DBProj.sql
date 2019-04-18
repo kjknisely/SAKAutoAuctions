@@ -53,9 +53,9 @@ having count(*) > 10;
 
 # 7. Query using INTERSECT
 # Return names of Owners whose vehicles are on lot #4 and their titles are CLEAN 
-SELECT owner FROM Auction_Automobile WHERE title = 'clean'
+SELECT vin, owner FROM Auction_Automobile WHERE title = 'clean'
 INTERSECT
-select owner from auction_automobile where lot_num = '4';
+select vin, owner from auction_automobile where lot_num = '4';
 
 # 8. Query using UNION
 # Return unique VIN's of vehicles manufactured by Toyota or vehicles with automatic transmission
