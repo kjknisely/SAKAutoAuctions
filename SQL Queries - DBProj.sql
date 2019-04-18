@@ -47,7 +47,8 @@ where lot_num='2')
 # Return a count of each vehicle make that is listed in the roster.
 select make, count(*)
 from Auction_Automobile a1
-group by make;
+group by make
+having count(*) > 10;
 
 
 # 7. Query using INTERSECT
