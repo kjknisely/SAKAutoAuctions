@@ -68,12 +68,11 @@ select vin, owner from auction_automobile where lot_num = '4';
 
 /*
 # 8. Query using UNION
-# Return unique VINs of vehicles manufactured by Toyota or vehicles with automatic 
-transmission
+# Return unique VINs of vehicles manufactured by Toyota or ford
 */
 SELECT VIN FROM Auction_Automobile WHERE make = 'Toyota'
 UNION
-select VIN from auction_automobile where trans = 'auto';
+select VIN from auction_automobile where make = 'Ford';
 
 /*
 # 9. Query using sort by (ORDER BY)

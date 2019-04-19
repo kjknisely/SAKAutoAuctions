@@ -302,7 +302,7 @@ mysql> select address
 
 /*
 #4. Query using MINUS
-# Return ssn's of employees who are NOT drivers.
+# Return name and ssn's of employees who are NOT drivers.
 */
 select ssn 
 from Employee
@@ -310,8 +310,35 @@ MINUS
 select ssn
 from Employee, Driver
 where ssn=dssn;
-********************************************************perform on noy mysql(no minus support)
-
+ SSN
+107909201
+117320864
+156743744
+192496284
+219288487
+339659428
+344342341
+346259342
+353024433
+407895301
+456506149
+470586541
+541848673
+560751965
+584277178
+588300301
+628761508
+661190266
+688795377
+718906354
+737635511
+746749350
+796328349
+802443958
+845254654
+894085150
+896606700
+984159086
 
 
 /*
@@ -457,22 +484,100 @@ mysql> select make, count(*)
 
 /*
 # 7. Query using INTERSECT
-# Return names of Owners whose vehicles are on lot #4 and their titles are CLEAN 
+# Return types of Owners whose vehicles are on lot #4 and their titles are CLEAN 
 */
 SELECT vin, owner FROM Auction_Automobile WHERE title = 'clean'
 INTERSECT
 select vin, owner from auction_automobile where lot_num = '4';
-********************************************************perform on noy mysql(no intersect support)
+
+vin;owner
+1FTEX1CM4DF660483;bank
+1FTEX1E8XAF132085;dealer
+1FTSX2A58AE499531;dealer
+1GTN1TEH6FZ537205;bank
+2G4WE587181280436;dealer
+4A37L3ET7AE516254;dealer
+JHMFA3F24AS781501;dealer
+JTHFF2C21D2202341;null
+SCBLF34FX3C735621;bank
+WA19FAFL6DA889863;insurance
+WAUHFBFL1AN714896;dealer
+WVGEF9BP9DD760845;insurance
+YV440MBC8F1543192;dealer
+
 
 /*
 # 8. Query using UNION
-# Return unique VINs of vehicles manufactured by Toyota or vehicles with automatic 
-transmission
+# Return unique VINs and make/model of vehicles manufactured by Toyota or ford 
 */
-SELECT VIN FROM Auction_Automobile WHERE make = 'Toyota'
+SELECT VIN, make, model FROM Auction_Automobile WHERE make = 'Toyota'
 UNION
-select VIN from auction_automobile where trans = 'auto';
-********************************************************perform on noy mysql(no UNION support)
+select VIN, make, model from auction_automobile where make = 'Ford';
+   vin;make;model
+19VDE1F59DE110529;Ford;Econoline E150
+1C3CCBBB6CN239028;Ford;Expedition EL
+1D7RB1CT5AS677988;Ford;Mustang
+1D7RE3BK2AS357071;Toyota;Celica
+1FTNF2B58AE161237;Ford;Tempo
+1FTNX2A50AE285033;Ford;F150
+1G6AB5SX8F0157096;Ford;Explorer
+1G6DF5EG8A0999507;Ford;F250
+1G6DV5EP0C0849798;Ford;E-Series
+1G6DZ67A180495722;Ford;Flex
+1GYFC23299R585352;Ford;F150
+1GYS3AKJ2FR281146;Ford;Crown Victoria
+1N6BF0KMXFN633153;Toyota;Tundra
+2FMHK6CT7AB475921;Ford;E-Series
+2HNYD18221H605762;Ford;Econoline E250
+2T1KE4EE9BC819068;Toyota;RAV4
+3C63DRJL2CG317851;Toyota;Tacoma
+3D73Y4HL8AG110244;Ford;F350
+3N1CN7AP9DL300912;Toyota;4Runner
+3VW4S7AT0EM839919;Ford;Escort
+4A37L3ET7AE516254;Toyota;Corolla
+5FRYD3H27EB931522;Toyota;Tundra
+5FRYD3H6XEB050526;Ford;Thunderbird
+5FRYD3H96GB101193;Ford;Mustang
+5LMJJ2H5XBE984608;Ford;Mustang
+5N1AA0ND1FN712067;Toyota;Prius
+5N1AR2MM9FC913975;Ford;F-Series
+5N1AR2MMXDC663756;Toyota;Camry Hybrid
+5TFBY5F1XDX726895;Ford;F-Series Super Duty
+5UXKR0C52F0516583;Ford;Mustang
+JN1AZ4EHXDM767680;Ford;Fusion
+JN1CV6FE5AM160358;Ford;Mustang
+JN8AF5MR6DT866867;Ford;Ranger
+JTHFF2C21D2202341;Ford;Escort
+JTJBM7FX4A5721370;Toyota;Tacoma Xtra
+KMHFC4DF6AA077809;Ford;F350
+KMHGH4JH6FU602403;Toyota;4Runner
+KMHHU6KJ9FU971673;Ford;Aspire
+KNADH4A3XB6300572;Toyota;Tacoma
+ML32A3HJ3FH164957;Toyota;Sienna
+SALVP2BG2FH097955;Ford;Thunderbird
+TRUWT28N221141460;Toyota;4Runner
+WA1VMBFP4EA914659;Toyota;Prius
+WAUBFAFL1CA510903;Ford;Taurus
+WAUDF48H88K204687;Toyota;RAV4
+WAUEF78E76A073086;Toyota;Supra
+WAUFMBFC4EN860244;Toyota;Camry Hybrid
+WAUGL98EX6A185068;Ford;F150
+WAUHFAFL1BA855146;Ford;F150
+WAUKF98E45A919459;Ford;E-Series
+WAULVBFR4CA023857;Ford;F150
+WAURFAFR6BA210775;Toyota;Xtra
+WBA3V7C59EJ471027;Ford;E250
+WBABS33423J280759;Toyota;Avalon
+WBAET37412N413328;Ford;Mustang
+WBAET374X2N868548;Ford;F150
+WBAVM5C58FV591086;Toyota;Tacoma Xtra
+WDDEJ8GB4AA174938;Toyota;4Runner
+WP0CA2A84DS881788;Ford;Econoline E150
+WVGAV7AX9CW524240;Ford;Thunderbird
+WVGDP9BP1ED806730;Ford;Ranger
+WVWAN7AN4DE574103;Toyota;Camry
+WVWED7AJ3CW952082;Toyota;Corolla
+YV1672MCXCJ940675;Ford;F150
 
 /*
 # 9. Query using sort by (ORDER BY)
