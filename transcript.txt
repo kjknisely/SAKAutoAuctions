@@ -1,0 +1,694 @@
+SAK Auto Auctions
+Scottland Underwood
+Andrew Sneed
+Keegan Knisely
+Stage 3: tables, queries and updates
+
+********Create database and load tables********
+
+mysql> create database SAKAutoAuctions;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use SAKAutoAuctions
+Database changed
+
+/*used "\. <file.sql>" to create and populate tables*/
+
+mysql> show tables;
++--------------------------+
+| Tables_in_SAKAutoAuction |
++--------------------------+
+| Auction_Automobile       |
+| Auctioneer               |
+| Bid_Rep                  |
+| Driver                   |
+| Employee                 |
+| Location                 |
++--------------------------+
+6 rows in set (0.00 sec)
+
+********describe the 6 tables*************
+
+mysql> describe Auction_Automobile;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| vin     | varchar(50) | NO   | PRI | NULL    |       |
+| color   | varchar(50) | YES  |     | NULL    |       |
+| make    | varchar(50) | YES  |     | NULL    |       |
+| model   | varchar(50) | YES  |     | NULL    |       |
+| owner   | varchar(50) | YES  |     | NULL    |       |
+| year    | int(11)     | YES  |     | NULL    |       |
+| title   | varchar(12) | YES  |     | NULL    |       |
+| trans   | varchar(8)  | YES  |     | NULL    |       |
+| lot_num | int(11)     | YES  | MUL | NULL    |       |
+| reserve | int(11)     | YES  |     | NULL    |       |
+| mileage | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+mysql> describe Auction_Automobile;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| vin     | varchar(50) | NO   | PRI | NULL    |       |
+| color   | varchar(50) | YES  |     | NULL    |       |
+| make    | varchar(50) | YES  |     | NULL    |       |
+| model   | varchar(50) | YES  |     | NULL    |       |
+| owner   | varchar(50) | YES  |     | NULL    |       |
+| year    | int(11)     | YES  |     | NULL    |       |
+| title   | varchar(12) | YES  |     | NULL    |       |
+| trans   | varchar(8)  | YES  |     | NULL    |       |
+| lot_num | int(11)     | YES  | MUL | NULL    |       |
+| reserve | int(11)     | YES  |     | NULL    |       |
+| mileage | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+mysql> describe Bid_Rep;
++-----------+---------+------+-----+---------+-------+
+| Field     | Type    | Null | Key | Default | Extra |
++-----------+---------+------+-----+---------+-------+
+| bssn      | int(11) | YES  | MUL | NULL    |       |
+| sales_num | int(11) | YES  |     | NULL    |       |
++-----------+---------+------+-----+---------+-------+
+
+mysql> describe Driver;
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| dssn        | int(11) | YES  | MUL | NULL    |       |
+| license_num | int(11) | YES  |     | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+
+mysql> describe Employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| ssn          | int(11)     | NO   | PRI | NULL    |       |
+| salary       | int(11)     | YES  |     | NULL    |       |
+| name         | varchar(50) | YES  |     | NULL    |       |
+| address      | varchar(50) | YES  |     | NULL    |       |
+| e_lot_number | int(11)     | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+mysql> describe Location;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| Nnum_cars_in_lot | int(11)     | YES  |     | NULL    |       |
+| rent             | int(11)     | YES  |     | NULL    |       |
+| lot_size         | int(11)     | YES  |     | NULL    |       |
+| l_address        | varchar(50) | YES  |     | NULL    |       |
+| lot_number       | int(11)     | NO   | PRI | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+
+
+**************insert|update|delete***********
+
+/*insert single tuple*/
+mysql> insert into Auction_Automobile values ('1d7FC7ZAtemporary', 'Silver', 'Dodge', 'Dakota', 'keegan', 2005, 'clean', 'auto', 4, null, 131007);
+Query OK, 1 row affected (0.06 sec)
+
+/*show table with 911s, then delete one, show change, reinsert(for consistancy)*/
+
+mysql> select * from Auction_Automobile where model = '911';
++-------------------+--------+---------+-------+-----------+------+---------+--------+---------+---------+---------+
+| vin               | color  | make    | model | owner     | year | title   | trans  | lot_num | reserve | mileage |
++-------------------+--------+---------+-------+-----------+------+---------+--------+---------+---------+---------+
+| 1C3CC5FB1AN891726 | Orange | Porsche | 911   | dealer    | 2008 | rebuilt | auto   |       3 |    NULL |  202549 |
+| 1N6AF0LYXEN654421 | Mauv   | Porsche | 911   | insurance | 1986 | rebuilt | auto   |       5 |    NULL |   14531 |
+| SCBFC7ZA6EC752199 | Purple | Porsche | 911   | dealer    | 1996 | junk    | manual |       4 |    NULL |  189007 |
++-------------------+--------+---------+-------+-----------+------+---------+--------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> delete from Auction_Automobile where vin = 'SCBFC7ZA6EC752199';
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from Auction_Automobile where model = '911';
++-------------------+--------+---------+-------+-----------+------+---------+-------+---------+---------+---------+
+| vin               | color  | make    | model | owner     | year | title   | trans | lot_num | reserve | mileage |
++-------------------+--------+---------+-------+-----------+------+---------+-------+---------+---------+---------+
+| 1C3CC5FB1AN891726 | Orange | Porsche | 911   | dealer    | 2008 | rebuilt | auto  |       3 |    NULL |  202549 |
+| 1N6AF0LYXEN654421 | Mauv   | Porsche | 911   | insurance | 1986 | rebuilt | auto  |       5 |    NULL |   14531 |
++-------------------+--------+---------+-------+-----------+------+---------+-------+---------+---------+---------+
+
+/*temp tuples to do multi delete*/
+mysql> insert into Auction_Automobile values ('5N1AA0NDtemporary', 'Black', 'Honda', 'Inspire', 'keegan', 1993, 'clean', 'auto', 1, null, 93379);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Auction_Automobile values ('5N1AA486temporary', 'White', 'Chevrolet', 'G-Series G20', 'keegan', 1993, 'clean', 'auto', 1, null, 121379);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Auction_Automobile values ('1d7FC7ZAtemporary', 'Silver', 'Dodge', 'Dakota', 'keegan', 2005, 'clean', 'auto', 4, null, 131007);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from Auction_Automobile where owner = 'keegan';
++-------------------+--------+-----------+--------------+--------+------+-------+-------+---------+---------+---------+
+| vin               | color  | make      | model        | owner  | year | title | trans | lot_num | reserve | mileage |
++-------------------+--------+-----------+--------------+--------+------+-------+-------+---------+---------+---------+
+| 1d7FC7ZAtemporary | Silver | Dodge     | Dakota       | keegan | 2005 | clean | auto  |       4 |    NULL |  131007 |
+| 5N1AA0NDtemporary | Black  | Honda     | Inspire      | keegan | 1993 | clean | auto  |       1 |    NULL |   93379 |
+| 5N1AA486temporary | White  | Chevrolet | G-Series G20 | keegan | 1993 | clean | auto  |       1 |    NULL |  121379 |
++-------------------+--------+-----------+--------------+--------+------+-------+-------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+/*delete multi tuple (my temp cars)*/
+mysql> delete from Auction_Automobile where vin in (
+    -> select vin from (select * from Auction_Automobile) as d
+    -> where d.owner = 'keegan');
+Query OK, 3 rows affected (0.05 sec)
+
+mysql> select * from Auction_Automobile where owner = 'keegan';
+Empty set (0.00 sec)
+
+/*updates all priuses with new owner*/
+mysql> select * from Auction_Automobile where model = 'Prius';
++-------------------+--------+--------+-------+-------+------+---------+-------+---------+---------+---------+
+| vin               | color  | make   | model | owner | year | title   | trans | lot_num | reserve | mileage |
++-------------------+--------+--------+-------+-------+------+---------+-------+---------+---------+---------+
+| 5N1AA0ND1FN712067 | Maroon | Toyota | Prius | NULL  | 2011 | rebuilt | auto  |       1 |    NULL |  160379 |
+| WA1VMBFP4EA914659 | Orange | Toyota | Prius | NULL  | 2003 | junk    | auto  |       3 |    NULL |  113489 |
++-------------------+--------+--------+-------+-------+------+---------+-------+---------+---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> update Auction_Automobile set owner = '***DEVIL***' where vin = '5N1AA0ND1FN712067';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> 
+mysql> select * from Auction_Automobile where model = 'Prius';
++-------------------+--------+--------+-------+-------------+------+---------+-------+---------+---------+---------+
+| vin               | color  | make   | model | owner       | year | title   | trans | lot_num | reserve | mileage |
++-------------------+--------+--------+-------+-------------+------+---------+-------+---------+---------+---------+
+| 5N1AA0ND1FN712067 | Maroon | Toyota | Prius | ***DEVIL*** | 2011 | rebuilt | auto  |       1 |    NULL |  160379 |
+| WA1VMBFP4EA914659 | Orange | Toyota | Prius | NULL        | 2003 | junk    | auto  |       3 |    NULL |  113489 |
++-------------------+--------+--------+-------+-------------+------+---------+-------+---------+---------+---------+
+2 rows in set (0.00 sec)
+
+/*update multiple*/
+
+mysql> update Auction_Automobile  set owner = '***SatanOwnsAPrius***' where vin in (
+    -> select vin from (select * from Auction_Automobile) as u where u.model = 'Prius');
+Query OK, 2 rows affected (0.05 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> 
+mysql> select * from Auction_Automobile where model = 'Prius';
++-------------------+--------+--------+-------+-----------------------+------+---------+-------+---------+---------+---------+
+| vin               | color  | make   | model | owner                 | year | title   | trans | lot_num | reserve | mileage |
++-------------------+--------+--------+-------+-----------------------+------+---------+-------+---------+---------+---------+
+| 5N1AA0ND1FN712067 | Maroon | Toyota | Prius | ***SatanOwnsAPrius*** | 2011 | rebuilt | auto  |       1 |    NULL |  160379 |
+| WA1VMBFP4EA914659 | Orange | Toyota | Prius | ***SatanOwnsAPrius*** | 2003 | junk    | auto  |       3 |    NULL |  113489 |
++-------------------+--------+--------+-------+-----------------------+------+---------+-------+---------+---------+---------+
+
+***********Queries***************
+/* 
+1. Multiple 
+ Return the Name and Salary of All employees who are Auctioneers.
+*/
+mysql> select name, salary
+    -> from Employee, Auctioneer
+    -> where assn = ssn;
++-------------------+--------+
+| name              | salary |
++-------------------+--------+
+| Dominick Rouch    | 101965 |
+| Tobey Bundey      |  90446 |
+| Jorey Gronowe     | 118231 |
+| Garnet Hourahan   | 121095 |
+| Missy Bednell     | 118108 |
+| Francene Benkhe   | 121235 |
+| Gerrie Kinloch    | 124468 |
+| Madelin Pelzer    |  37220 |
+| Shannen Plascott  | 120547 |
+| Wyatan Merrifield | 117528 |
++-------------------+--------+
+10 rows in set (0.00 sec)
+
+/*
+# 2. Corrollated 
+# Return Make and model of vehicles that are in lot #3 with less than 10,000 miles.
+*/
+mysql> select make,model
+    -> from Auction_Automobile a1
+    -> where a1.mileage < 10000 and a1.year in 
+    -> (select year 
+    -> from Auction_Automobile a2, Location
+    -> where lot_number='3');
++---------------+-----------------+
+| make          | model           |
++---------------+-----------------+
+| Hyundai       | Elantra         |
+| Ford          | E-Series        |
+| Acura         | NSX             |
+| Jeep          | Liberty         |
+| MINI          | MINI            |
+| Volkswagen    | Touareg         |
+| Ford          | F350            |
+| GMC           | Yukon           |
+| Mercedes-Benz | C-Class         |
+| Nissan        | Xterra          |
+| Honda         | Element         |
+| Audi          | Q5              |
+| Honda         | Passport        |
+| BMW           | 8 Series        |
+| Hyundai       | Scoupe          |
+| Chevrolet     | Suburban 2500   |
+| GMC           | 2500 Club Coupe |
+| Toyota        | 4Runner         |
+| Mitsubishi    | Mirage          |
+| Toyota        | Camry           |
+| Hyundai       | Elantra         |
+| Buick         | Special         |
+| Austin        | Mini            |
++---------------+-----------------+
+23 rows in set (0.00 sec)
+
+/*
+# 3. Uncorrolated Nested
+# Return addresses of all employees who are drivers. 
+*/
+mysql> select address 
+    -> from Employee e1
+    -> where e1.ssn in (select ssn
+    -> from Employee, Driver
+    -> where ssn=dssn);
++------------------------+
+| address                |
++------------------------+
+| 0393 Browning Trail    |
+| 65 Union Parkway       |
+| 15574 Dapin Road       |
+| 4924 Vermont Terrace   |
+| 98 Florence Pass       |
+| 06 Burrows Avenue      |
+| 14918 Huxley Circle    |
+| 744 Dunning Court      |
+| 9 Milwaukee Parkway    |
+| 75 Heath Way           |
+| 75 Weeping Birch Pass  |
+| 25 Caliangt Place      |
+| 6480 Atwood Plaza      |
+| 8027 Southridge Place  |
+| 47262 Donald Way       |
+| 40 Fisk Parkway        |
+| 11 Dennis Avenue       |
+| 6710 Vernon Plaza      |
+| 752 Almo Drive         |
+| 43158 Riverside Circle |
+| 693 Barby Terrace      |
+| 74021 Veith Lane       |
++------------------------+
+22 rows in set (0.00 sec)
+
+/*
+#4. Query using MINUS
+# Return ssn's of employees who are NOT drivers.
+*/
+select ssn 
+from Employee
+MINUS
+select ssn
+from Employee, Driver
+where ssn=dssn;
+********************************************************perform on noy mysql(no minus support)
+
+
+
+/*
+# 5. Query using in
+# Return Make, Model, and Color of all vehicles that are located on Lot 2
+*/
+mysql> select Make, Model, color 
+    -> from Auction_Automobile a1
+    -> where a1.lot_num in (select lot_num
+    -> from Auction_Automobile
+    -> where lot_num='2')
+    -> ;
++---------------+----------------+------------+
+| Make          | Model          | color      |
++---------------+----------------+------------+
+| Chevrolet     | Blazer         | Turquoise  |
+| Dodge         | Caravan        | Aquamarine |
+| Mercury       | Sable          | Fuscia     |
+| Lexus         | IS F           | Purple     |
+| Bentley       | Continental    | Puce       |
+| Aston Martin  | Vantage        | Orange     |
+| BMW           | Z4             | Red        |
+| Lincoln       | MKT            | Turquoise  |
+| Dodge         | Stratus        | Orange     |
+| Mercedes-Benz | W201           | Mauv       |
+| Chevrolet     | Venture        | Indigo     |
+| Dodge         | Neon           | Violet     |
+| Chevrolet     | Camaro         | Violet     |
+| Plymouth      | Grand Voyager  | Indigo     |
+| Jeep          | Wrangler       | Khaki      |
+| Lexus         | SC             | Maroon     |
+| Audi          | A6             | Puce       |
+| Honda         | Element        | Crimson    |
+| Pontiac       | Firefly        | Purple     |
+| Pontiac       | 6000           | Goldenrod  |
+| Audi          | 5000S          | Teal       |
+| Scion         | FR-S           | Maroon     |
+| Saturn        | VUE            | Turquoise  |
+| Hyundai       | Sonata         | Aquamarine |
+| Buick         | Rendezvous     | Yellow     |
+| Ford          | Econoline E250 | Turquoise  |
+| Chevrolet     | Corvette       | Violet     |
+| Aston Martin  | V8 Vantage     | Blue       |
+| Jeep          | Grand Cherokee | Khaki      |
+| Chevrolet     | Suburban 2500  | Maroon     |
+| Lamborghini   | Aventador      | Puce       |
+| Mitsubishi    | Galant         | Maroon     |
+| Mitsubishi    | Raider         | Green      |
+| Dodge         | Ram Wagon B350 | Mauv       |
+| Chrysler      | Town & Country | Yellow     |
+| Toyota        | 4Runner        | Red        |
+| Mercedes-Benz | W201           | Indigo     |
+| Lincoln       | MKZ            | Red        |
+| Suzuki        | Aerio          | Fuscia     |
+| Suzuki        | Samurai        | Mauv       |
+| Honda         | Civic          | Yellow     |
+| Scion         | xB             | Khaki      |
+| Mazda         | B-Series Plus  | Yellow     |
+| Dodge         | Ram 1500       | Mauv       |
+| Jaguar        | XJ             | Orange     |
+| Honda         | Civic Si       | Aquamarine |
+| Pontiac       | Parisienne     | Red        |
+| Chrysler      | 300M           | Mauv       |
+| GMC           | Suburban 2500  | Pink       |
+| Subaru        | Impreza        | Yellow     |
+| Mazda         | B2500          | Puce       |
+| BMW           | 8 Series       | Mauv       |
+| Honda         | S2000          | Green      |
+| Hyundai       | XG350          | Green      |
+| Toyota        | Tacoma Xtra    | Red        |
+| Mercedes-Benz | 300SE          | Mauv       |
+| Ford          | Aspire         | Pink       |
+| Mercedes-Benz | CLK-Class      | Purple     |
+| Spyker        | C8             | Crimson    |
+| Bentley       | Azure          | Mauv       |
+| BMW           | Z4 M           | Goldenrod  |
+| Honda         | Odyssey        | Maroon     |
+| Acura         | Legend         | Indigo     |
+| Lexus         | SC             | Green      |
+| Mercedes-Benz | CL-Class       | Maroon     |
+| Chrysler      | PT Cruiser     | Mauv       |
+| Chevrolet     | Express 1500   | Blue       |
+| Ford          | E-Series       | Puce       |
+| Lincoln       | Town Car       | Orange     |
+| Dodge         | Charger        | Yellow     |
+| Hyundai       | Elantra        | Maroon     |
+| MINI          | Clubman        | Red        |
+| Ram           | C/V            | Pink       |
+| Suzuki        | Aerio          | Khaki      |
+| Chevrolet     | Suburban 1500  | Red        |
+| Chevrolet     | Uplander       | Fuscia     |
+| Mercedes-Benz | C-Class        | Violet     |
+| GMC           | Envoy          | Blue       |
+| Chevrolet     | Express 3500   | Yellow     |
+| Acura         | Legend         | Blue       |
+| Ford          | E250           | Puce       |
+| Nissan        | Murano         | Turquoise  |
+| Kia           | Sorento        | Crimson    |
+| Plymouth      | Neon           | Red        |
+| Acura         | Legend         | Maroon     |
+| Chevrolet     | Express 3500   | Puce       |
+| GMC           | Canyon         | Red        |
+| Toyota        | 4Runner        | Fuscia     |
+| Hyundai       | Sonata         | Turquoise  |
+| Ford          | Econoline E150 | Fuscia     |
+| Scion         | tC             | Violet     |
+| Buick         | Skyhawk        | Yellow     |
+| Chevrolet     | G-Series G20   | Puce       |
++---------------+----------------+------------+
+93 rows in set (0.00 sec)
+
+/*
+# 6. Query using group by and aggregate and having
+# Return a count of each vehicle make that is listed in the roster 
+with more than 10 of those cars
+*/
+mysql> select make, count(*)
+    -> from Auction_Automobile a1
+    -> group by make
+    -> having count(*) > 10;
++---------------+----------+
+| make          | count(*) |
++---------------+----------+
+| Acura         |       12 |
+| Audi          |       16 |
+| BMW           |       12 |
+| Chevrolet     |       44 |
+| Dodge         |       27 |
+| Ford          |       40 |
+| GMC           |       23 |
+| Honda         |       16 |
+| Hyundai       |       16 |
+| Lexus         |       12 |
+| Mercedes-Benz |       15 |
+| Mercury       |       11 |
+| Mitsubishi    |       18 |
+| Nissan        |       17 |
+| Pontiac       |       16 |
+| Toyota        |       24 |
+| Volkswagen    |       16 |
++---------------+----------+
+17 rows in set (0.02 sec)
+
+/*
+# 7. Query using INTERSECT
+# Return names of Owners whose vehicles are on lot #4 and their titles are CLEAN 
+*/
+SELECT vin, owner FROM Auction_Automobile WHERE title = 'clean'
+INTERSECT
+select vin, owner from auction_automobile where lot_num = '4';
+********************************************************perform on noy mysql(no intersect support)
+
+/*
+# 8. Query using UNION
+# Return unique VINs of vehicles manufactured by Toyota or vehicles with automatic 
+transmission
+*/
+SELECT VIN FROM Auction_Automobile WHERE make = 'Toyota'
+UNION
+select VIN from auction_automobile where trans = 'auto';
+********************************************************perform on noy mysql(no UNION support)
+
+/*
+# 9. Query using sort by (ORDER BY)
+# Return names and addresses for all employees whose salary is greater than $90,000
+*/
+mysql> select name, address
+    -> from Employee
+    -> where salary > 90000
+    -> ORDER by name;
++-------------------+---------------------------+
+| name              | address                   |
++-------------------+---------------------------+
+| Alexa Coweuppe    | 4 Spohn Center            |
+| Alexa Petigrew    | 81610 Oriole Way          |
+| Dallas Beden      | 02044 Meadow Valley Point |
+| Dominick Rouch    | 7673 Milwaukee Alley      |
+| Dulcy Dreamer     | 084 Tony Plaza            |
+| Florrie Lewty     | 3408 Transport Point      |
+| Francene Benkhe   | 292 Erie Trail            |
+| Garnet Hourahan   | 82645 Springview Pass     |
+| Gerrie Kinloch    | 4 Emmet Crossing          |
+| Irvin Cheale      | 683 Bayside Park          |
+| Jorey Gronowe     | 36 Hazelcrest Pass        |
+| Missy Bednell     | 39527 Lukken Pass         |
+| Perri Wadly       | 70536 Express Terrace     |
+| Sampson Gilling   | 06 Rusk Center            |
+| Shannen Plascott  | 30426 Parkside Drive      |
+| Spenser Rikel     | 61 Superior Way           |
+| Tobey Bundey      | 03 Truax Point            |
+| Wyatan Merrifield | 38 American Ash Lane      |
+| Yvon Grinnikov    | 43158 Riverside Circle    |
++-------------------+---------------------------+
+19 rows in set (0.01 sec)
+
+/*
+# 10. Query using all
+# Return make and model of all vehicles if all titles are clean. 
+*/
+mysql> select make, model
+    -> from Auction_Automobile
+    -> where title = all (select title 
+    -> from Auction_Automobile
+    -> where title = 'clean');
++---------------+-------------------+
+| make          | model             |
++---------------+-------------------+
+| Chevrolet     | Blazer            |
+| Saab          | 900               |
+| Ford          | Econoline E150    |
+| Chrysler      | Cirrus            |
+| Lamborghini   | Gallardo          |
+| Land Rover    | Range Rover       |
+| Aston Martin  | Vantage           |
+| Mercedes-Benz | S-Class           |
+| GMC           | Suburban 1500     |
+| Dodge         | Stratus           |
+| Subaru        | Loyale            |
+| Pontiac       | G8                |
+| Ford          | E-Series          |
+| Mercedes-Benz | GLK-Class         |
+| Scion         | tC                |
+| Nissan        | Pathfinder        |
+| Kia           | Forte             |
+| Buick         | Rendezvous        |
+| Volkswagen    | Cabriolet         |
+| Kia           | Spectra           |
+| Ford          | Econoline E250    |
+| Oldsmobile    | 88                |
+| Buick         | Special           |
+| Suzuki        | Grand Vitara      |
+| Porsche       | Boxster           |
+| Toyota        | Corolla           |
+| Suzuki        | Aerio             |
+| Lamborghini   | Gallardo          |
+| Bentley       | Azure             |
+| Isuzu         | Rodeo             |
+| BMW           | M                 |
+| Honda         | Civic Si          |
+| Ford          | Escort            |
+| Chevrolet     | Venture           |
+| Chrysler      | 300M              |
+| Toyota        | 4Runner           |
+| Ford          | Thunderbird       |
+| Saturn        | Ion               |
+| GMC           | 1500 Club Coupe   |
+| Nissan        | Altima            |
+| Toyota        | RAV4              |
+| Chevrolet     | Silverado 3500    |
+| Chrysler      | New Yorker        |
+| Mazda         | Mazda2            |
+| Ford          | E-Series          |
+| Chevrolet     | G-Series 1500     |
+| Chevrolet     | Silverado 2500    |
+| Mitsubishi    | Eclipse           |
+| Mercury       | Mountaineer       |
+| Land Rover    | Range Rover Sport |
+| Honda         | CR-V              |
+| Kia           | Sorento           |
+| Toyota        | 4Runner           |
+| Infiniti      | FX                |
+| Dodge         | Dakota Club       |
+| Hyundai       | Azera             |
+| Pontiac       | Grand Prix        |
+| Chrysler      | Cirrus            |
+| Chevrolet     | G-Series G20      |
++---------------+-------------------+
+59 rows in set (0.01 sec)
+
+/* 
+11. not in
+ Return the Name of all employees who are not Auctioneers.
+*/
+mysql> select name
+    -> from Employee
+    -> where ssn not in (select assn
+    ->                   from Auctioneer);
++---------------------+
+| name                |
++---------------------+
+| Mirabelle Hourston  |
+| Dulcy Dreamer       |
+| Allianora Oldall    |
+| Lacee Coupar        |
+| Betteanne Mogenot   |
+| Irvin Cheale        |
+| Pierson Witcherley  |
+| Aylmar Fourmy       |
+| Grannie McVrone     |
+| Marilee Livingstone |
+| Abagael Dussy       |
+| Tobe Ricketts       |
+| Florrie Lewty       |
+| Addie Champkin      |
+| Susana Raff         |
+| Spenser Rikel       |
+| Wylie Oblein        |
+| Luigi Bissett       |
+| Nariko Gilley       |
+| Alexa Coweuppe      |
+| Phebe Caban         |
+| Delbert Jeromson    |
+| Evie Devers         |
+| Perri Wadly         |
+| Tabby Vlies         |
+| Florette Bromage    |
+| Lilias Shepperd     |
+| Anjanette McCumesky |
+| Berthe Gammade      |
+| Devonne Sussans     |
+| Alexa Petigrew      |
+| Torrey Hauxwell     |
+| Walker Crumly       |
+| Sampson Gilling     |
+| Sorcha Lorraine     |
+| Dugald Dalby        |
+| Dallas Beden        |
+| Yvon Grinnikov      |
+| Bethena Siddele     |
+| Wash Perrot         |
++---------------------+
+40 rows in set (0.02 sec)
+
+/*
+12. exists
+ Return the lot number of lots with unnknown owner cars
+*/
+mysql> select lot_number
+    -> from Location
+    -> where exists (select *
+    ->               from Auction_Automobile
+    ->               where owner is Null);
++------------+
+| lot_number |
++------------+
+|          1 |
+|          2 |
+|          3 |
+|          4 |
+|          5 |
++------------+
+5 rows in set (0.03 sec)
+
+/*
+13. not exists
+ Return the vin, make, model, and year of cars with more than 245,000 miles
+*/
+
+mysql> select vin, make, model, year
+    -> from Auction_Automobile as aa1
+    -> where not exists (select *
+    ->                   from Auction_Automobile as aa2
+    ->                   where aa1.vin = aa2.vin and mileage < 245000);
++-------------------+-----------+--------------+------+
+| vin               | make      | model        | year |
++-------------------+-----------+--------------+------+
+| 1FTNX2A50AE285033 | Ford      | F150         | 2009 |
+| 1G6AX5SX3F0949187 | Chevrolet | Camaro       | 1995 |
+| WA1WKBFP4BA866635 | GMC       | Sierra 2500  | 2005 |
+| WAUKF78E86A357765 | Dodge     | Intrepid     | 2002 |
+| WAURGAFD7DN484404 | Lexus     | IS           | 2005 |
+| WBA3C1C54CA834849 | Chevrolet | Express 3500 | 1998 |
+| WBAUC9C50DV191803 | Lexus     | IS           | 2010 |
++-------------------+-----------+--------------+------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

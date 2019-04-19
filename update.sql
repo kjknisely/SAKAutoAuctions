@@ -1,3 +1,7 @@
+/*update correct number of cars in lot*/
+
+
+
 /*insert single tuple*/
 
 insert into Auction_Automobile values ('1d7FC7ZAtemporary', 'Silver', 'Dodge', 'Dakota', 'keegan', 2005, 'clean', 'auto', 4, null, 131007);
@@ -24,11 +28,11 @@ select * from Auction_Automobile where owner = 'keegan';
 
 /*updates all priuses with new owner*/
 select * from Auction_Automobile where model = 'Prius';
-update Auction_Automobile set owner = 'DEVIL' where vin = '5N1AA0ND1FN712067';
+update Auction_Automobile set owner = '***DEVIL***' where vin = '5N1AA0ND1FN712067';
 
 select * from Auction_Automobile where model = 'Prius';
-
-update Auction_Automobile  set owner = 'SatanOwnsAPrius' where vin in (
+/*update multiple*/
+update Auction_Automobile  set owner = '***SatanOwnsAPrius***' where vin in (
 	select vin from (select * from Auction_Automobile) as u where u.model = 'Prius');
 
 select * from Auction_Automobile where model = 'Prius';
