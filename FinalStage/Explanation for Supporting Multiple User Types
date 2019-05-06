@@ -1,0 +1,15 @@
+Explanation for Supporting Multiple User Types
+
+Multiple user types provided complexity to this web application. The web 
+application provides the user with more or less functionality depending 
+on which user type logs in and engages with the interface. For example, 
+in the Menu Bar, the items indicated as (Admin Only) are only available
+to be used by the Admin user type. This is important because it separates
+access levels depending on whether the user is an administrator/executive,
+in contrast to a member of the general public. This approach promotes and
+reinforces the idea of increased database security to ensure that updated,
+valid, data is able to persist at all times when a user is engaged with the
+site. From an enterprise software development perspective, this implementation
+could be extended further by implementing optimistic locking as an addition
+to the database security to ensure that no two users are attempting to update
+a specific row of data at the same time. 
